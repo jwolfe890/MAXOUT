@@ -2,8 +2,10 @@ class User < ActiveRecord::Base
  
   has_many :exercises, :through => :user_exercises
   has_many :user_exercises
+  # has_many :weeks 
 
-  has_secure_password
+  # has_secure_password
+
 
   # def slug
   #   username.downcase.gsub(" ","-")

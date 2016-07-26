@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :name
       t.string :age
       t.string :weight
+      t.integer :week_id
     end
   end
 end

@@ -7,5 +7,6 @@ end
 use Rack::MethodOverride
 use ApplicationController
 use WeeksController
+use ExercisesController
 run UsersController
 
