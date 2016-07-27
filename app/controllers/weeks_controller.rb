@@ -31,19 +31,19 @@ class WeeksController < ApplicationController
 
     @entry = @user.exercises.all.where(date: "#{@user.date}" )
 
-    weight_convertor = @entry.zip(params["weight"])
-    weight_convertor.each do 
-      |x| x[0].weight = x[1] 
-    end
+    # weight_convertor = @entry.zip(params["weight"])
+    # weight_convertor.each do 
+    #   |x| x[0].weight = x[1]
+    # end
 
-    reps_convertor = @entry.zip(params["reps"]) 
-    reps_convertor.each do 
-      |x| x[0].reps = x[1] 
-    end 
+    # reps_convertor = @entry.zip(params["reps"]) 
+    # reps_convertor.each do 
+    #   |x| x[0].reps = x[1] 
+    # end 
 
-    @entry.each do |entry|
-      entry.save
-    end 
+    # @entry.each do |entry|
+    #   entry.save
+    # end 
 
     binding.pry
 
