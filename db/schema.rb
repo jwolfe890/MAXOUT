@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20160725200402) do
     t.string  "password_digest"
     t.string  "name"
     t.string  "age"
-    t.string  "weight"
+    t.integer "weight"
     t.integer "week_id"
     t.date    "date"
   end
