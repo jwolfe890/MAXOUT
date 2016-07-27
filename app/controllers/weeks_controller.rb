@@ -1,67 +1,57 @@
 class WeeksController < ApplicationController
 
-  # get '/weeks' do 
-  #   erb :'/weeks/weeks'
-  # end
-
-  # get '/weeks/:id' do 
-  #   # SHOWS THE INFORMATION FOR A SPECIFIC WEEK
-  # end 
-
-  # get '/weeks/:id/edit' do 
-  #   # ALLOWS USER TO EDIT THAT SPECIFIC WEEK
-  # end
-
-  # post '/weeks/:id' do 
-  #   # UPDATES THAT SPECIFIC WEEK 
-
-  #   redirect to '/weeks/:id'
-
-  # end  
-
-  get '/weeks/new' do
-      if is_logged_in?
-        @user = User.find_by(:id => session[:user_id])
-        erb :'/weeks/create_week'
-      else 
-        redirect to '/login'
-      end  
+  get '/weeks/new' do 
+    @user = User.find_by_id(session[:user_id])
+    erb :'weeks/create_week' 
   end
 
-  post '/weeks' do  
+  post '/weeks' do 
+    @user = User.find_by_id(session[:user_id])
+    params["user"]["exercise_names"].each do |exer|  
+       @user.exercises << Exercise.create(name: exer, date: params["date"])
+    end 
+    redirect "week2?date=#{params[:date]}" 
+  end
 
-    @user = User.find_by(:id => session[:user_id])
-    # @week = Week.new
+  get '/week2' do
+    @entry = []
+    @user = User.find_by_id(session[:user_id])
+    @date = params[:date]
+    @user.date = @date
+    @user.save
+    @entry = @user.exercises.all.where(date: "#{@date}" )
+    erb :'weeks/week2'
+  end
 
-    @user.exercise_ids = params["user"]["exercise_ids" ].map(&:to_i)
+  patch '/week2' do
 
-     binding.pry
+    binding.pry
 
-    if !params[:exercise][:name].empty?
-      @user.exercises << Title.create(params[:title])
+    @user = User.find_by_id(session[:user_id])
+
+    @entry = @user.exercises.all.where(date: "#{@user.date}" )
+
+    weight_convertor = @entry.zip(params["weight"])
+    weight_convertor.each do 
+      |x| x[0].weight = x[1] 
     end
 
-    # @week1.exercises << params["user"]["exercise_ids" ].map(&:to_i)
-    # @user.weeks << @week1
+    reps_convertor = @entry.zip(params["reps"]) 
+    reps_convertor.each do 
+      |x| x[0].reps = x[1] 
+    end 
 
-    redirect to 'weeks2'
-  end
+    @entry.each do |entry|
+      entry.save
+    end 
 
-  get '/weeks2' do 
-    @user = User.find_by(:id => session[:user_id])
-    erb :'/weeks/week2'
-  end
+    binding.pry
 
-  get '/weeks2' do 
-
+    redirect "week3?date=#{params[:date]}"
   end  
-
-  # post '/weeks' do
-
-  #   # UPDATE THE SPECIFIC WEEK 
-    
-  #   redirect to '/weeks'
-  # end  
-
  
 end
+
+
+
+

@@ -1,14 +1,19 @@
-<form method="post" action="/weeks2">
+<form method="post" action="/week2">
 
-<%= @user.exercises.each do |exs| %>
+<% @entry.each do |exs| %>
 
   <input id="hidden" type="hidden" name="_method" value="PATCH">
-  <input type="text" name="weight" value="<%= exs.weight %>">
-  <input type="text" name="reps" value="<%= exs.reps %>">
-  <input type="submit" value="submit">
+  <%= exs.name %>
+  <br></br>
+  Weight:<input type="text" name="weight[]" value="<%= exs.weight %>">
+  <br></br>
+  Reps:<input type="text" name="reps[]" value="<%= exs.reps %>">
+  <br></br>
 
 <% end %>
 
-
+  <input type="submit" value="submit">
 
 </form>
+
+

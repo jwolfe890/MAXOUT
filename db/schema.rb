@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20160725200402) do
     t.string  "name"
     t.integer "weight"
     t.integer "reps"
+    t.date    "date"
   end
 
   create_table "stats", force: :cascade do |t|
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 20160725200402) do
     t.string  "age"
     t.string  "weight"
     t.integer "week_id"
+    t.date    "date"
   end
 
   create_table "weeks", force: :cascade do |t|

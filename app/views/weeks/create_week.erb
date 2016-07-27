@@ -2,25 +2,23 @@
 
 <form action="/weeks" method="POST">
 
- <lable>Welcome @user.name</label>
+ <lable>Welcome <%= @user.username %></label>
 
-  <label><h4>Exercises</h4></label>
-    <% Exercise.all.each do |exercise| %>
-      <label><%= exercise.name %></label>
-      <input type="checkbox" id="title_<%=exercise.id%>" name="user[exercise_ids][]" value="<%= exercise.id %>"><br>
-    <% end %>
-
- <label><h4>Create New Exercise:</h4></label>
-  <input type="text" id="new_exercise" name="exercise[name]"> 
-
-<br></br>
-
-  <input type="submit" id="submit" value="submit">
+ <br></br>
 
 <form>
-  Birthday:
-  <input type="date" name="bday">
+  Date for entry:
+  <input type="date" name="date">
 </form>
 
+  <label><h4>Exercises</h4></label>
+
+    <% Exercise.all.each do |exercise| %>
+      <label><%= exercise.name %></label>
+      <input type="checkbox" name="user[exercise_names][]" value="<%= exercise.name %>"><br>
+    <% end %>
+
+<br></br>
+  <input type="submit" value="submit">
 </form>
 
