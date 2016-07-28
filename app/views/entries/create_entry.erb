@@ -1,6 +1,6 @@
-<h1>Create a Week</h1>
+<h1>Create a Entry</h1>
 
-<form action="/weeks" method="POST">
+<form action="/entry" method="POST">
 
  <lable>Welcome <%= @user.username %></label>
 
@@ -13,8 +13,9 @@
 
   <label><h4>Exercises</h4></label>
 
-    <% Exercise.all.each do |exercise| %>
-      <label><%= exercise.name %></label>
+    <% @names2.each do |exercise_name| %>
+
+      <label><%= exercise_name %></label>
       <input type="checkbox" name="user[exercise_names][]" value="<%= exercise.name %>"><br>
     <% end %>
 

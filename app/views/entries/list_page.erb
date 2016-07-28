@@ -1,0 +1,17 @@
+<h2>PAST WORKOUTS</h2>
+
+<% @user.entries.each do |ent| %>
+
+<a href="/show_stats/<%= ent.date %>"><%= ent.name.strftime("%m-%d-%Y") %></a>
+
+<br></br>
+
+<% end %>
+
+<br></br>
+
+----------------------------------------
+
+<br></br>
+
+<a href="/entry/new">ADD NEW ENTRY</a>

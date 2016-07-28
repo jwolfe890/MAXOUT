@@ -1,5 +1,9 @@
 <h1>Signup</h1>
 
+<% unless locals.empty? %>
+  <%= message %>
+<% end %>
+
 <form action="/signup" method="POST">
 
   <p>
@@ -11,8 +15,6 @@
     <label for="password">Password:</label>
     <input type="text" name="password" id="password">
   </p>
-
-  <p>Yo, do you even lift?</p>
 
   <input type="submit" id="submit" value="submit">
 

@@ -6,7 +6,6 @@ end
 
 use Rack::MethodOverride
 use ApplicationController
-use WeeksController
-use ExercisesController
+use EntriesController
 run UsersController
 
