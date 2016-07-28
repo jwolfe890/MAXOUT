@@ -10,13 +10,13 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    if User.find_by(:username => params[:username])
+    if User.find_by(:username => params[:user][:username])
       erb :'users/create_user', locals: {message: "BRO, DO YOU EVEN LIFT?? THAT NAME IS TAKEN!"}
-    elsif params[:username] == "" || params[:password] == ""
+    elsif params[:user][:username] == "" || params[:user][:password] == ""
       erb :'users/create_user'
     else 
-      @user = User.new(:username => params[:username], :password_digest => params[:password])
-      @user.save
+      binding.pry
+      @user = User.create(params[:user])
       session[:user_id] = @user.id
       redirect to '/entry/new'
   end  
