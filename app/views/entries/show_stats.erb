@@ -1,10 +1,23 @@
-DAMN BRO! NOT BAD!
+<!doctype html>
+
+<html lang = "en">
+<head>
+  <meta charset="UTF-8">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+
+<body class = "maxout">
+
+<h1 class = "show_stats">DAMN BRO! NOT BAD!</h1>
+
+<img src="/bl.jpg" alt="bostin" style="width:160px;height:150px;">
 
 <% @entry.each do |entr| %>
 
-<br></br>
-<%= entr.name %>
-<br></br>
+<strong><p><%= entr.name %></p></strong>
 Weight:
 <%= entr.weight %>
 <br></br>
@@ -17,4 +30,8 @@ Reps:
 
 <br></br>
 
-<a href="/entries">VIEW ALL ENTRIES</a>
+<a href="/entries">VIEW ALL WORKOUT SESSIONS</a>
+
+</body>
+
+</html>

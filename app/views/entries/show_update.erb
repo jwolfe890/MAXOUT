@@ -1,9 +1,22 @@
-I GOT YOU BRO...UPDATED! 
+<!doctype html>
+
+<html lang = "en">
+<head>
+  <meta charset="UTF-8">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+
+<body class = "maxout">
+
+<h2 class="update">I GOT YOU UPDATED BRO!</h2>
 
 <% @entry.each do |entr| %>
 
 <br></br>
-<%= entr.name %>
+<strong><%= entr.name %></strong>
 <br></br>
 Weight:
 <%= entr.weight %>
@@ -15,4 +28,12 @@ Reps:
 
 <br></br>
 
-<a href="/edit_entry/<%= @user.date %>">Edit</a>
+<a href="/edit_entry/<%= @user.date %>">EDIT</a>&nbsp; &nbsp;    <a href="/entries">VIEW ALL WORKOUT SESSIONS</a>
+
+</body>
+
+<br></br>
+
+<img src="/bloyd.jpg" alt="bostin" style="width:400px;height:450px;" class="clear">
+
+</html>

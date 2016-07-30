@@ -3,7 +3,6 @@ class EntriesController < ApplicationController
   get '/entries' do
     if is_logged_in?
       @user = User.find_by_id(session[:user_id])
-      binding.pry
       erb :'/entries/list_page'
     else 
       redirect '/login'
@@ -11,22 +10,26 @@ class EntriesController < ApplicationController
   end 
 
   get '/entry/new' do
-    binding.pry
-    
-    names = []
-    
-    Exercise.all.each do |exer|
-      names << exer.name
-    end 
-
-    @names2 = names.uniq
-
+    @user = User.find_by_id(session[:user_id])
     if is_logged_in? 
+    if @user.entries != []
       binding.pry
-       @user = User.find_by_id(session[:user_id])
-       erb :'entries/create_entry' 
+      names = []
+      @user.exercises.each do |exer|
+        names << exer.name
+      end 
+      @names2 = names.uniq
+      erb :'/entries/create_entry2'
     else 
-      redirect '/login'
+      names = []
+      Exercise.all.each do |exer|
+        names << exer.name
+      end 
+      @names2 = names.uniq
+      erb :'entries/create_entry' 
+    end 
+   else 
+    redirect '/login'
     end 
   end
 
@@ -34,13 +37,15 @@ class EntriesController < ApplicationController
     @user = User.find_by_id(session[:user_id])
     params["user"]["exercise_names"].each do |exer|  
        @user.exercises << Exercise.create(name: exer, date: params["date"])
+    end
+    if !params[:exercise][:name].empty?
+      @user.exercises << Exercise.create(name: params[:exercise][:name], date: params["date"])
     end 
     redirect "add_stats?date=#{params[:date]}" 
   end
 
   get '/add_stats' do
     if is_logged_in?  
-      binding.pry
       @user = User.find_by_id(session[:user_id])
       @date = params[:date]
       @user.date = @date 
@@ -58,7 +63,6 @@ class EntriesController < ApplicationController
   end
 
   patch '/add_stats' do
-    binding.pry
     @user = User.find_by_id(session[:user_id])
     @entry = @user.exercises.all.where(date: "#{@user.date}" )
     weight_convertor = @entry.zip(params["weight"])
@@ -94,7 +98,6 @@ class EntriesController < ApplicationController
 
   get '/show_stats' do
     if is_logged_in? 
-      binding.pry
       @user = User.find_by_id(session[:user_id])
       @entry = @user.exercises.all.where(date: "#{@user.date}" )
       erb :'/entries/show_stats'
@@ -105,7 +108,6 @@ class EntriesController < ApplicationController
 
   get '/show_stats/:date' do
     if is_logged_in? 
-      binding.pry
       @user = User.find_by_id(session[:user_id])
       @user.date = params["date"]
       @user.save

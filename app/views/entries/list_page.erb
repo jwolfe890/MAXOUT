@@ -1,4 +1,19 @@
-<h2>PAST WORKOUTS</h2>
+
+<!doctype html>
+
+<html lang = "en">
+<head>
+  <meta charset="UTF-8">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+
+<body class = "show">
+
+<h2 class="workout_list">PAST WORKOUTS</h2>
+
 
 <% @user.entries.each do |ent| %>
 
@@ -8,10 +23,10 @@
 
 <% end %>
 
+</body>
+
+--------------------------------------
 <br></br>
+<a href="/entry/new">ADD NEW WORKOUT SESSION</a>
 
-----------------------------------------
-
-<br></br>
-
-<a href="/entry/new">ADD NEW ENTRY</a>
+</html>

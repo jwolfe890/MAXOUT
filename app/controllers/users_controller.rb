@@ -13,9 +13,8 @@ class UsersController < ApplicationController
     if User.find_by(:username => params[:user][:username])
       erb :'users/create_user', locals: {message: "BRO, DO YOU EVEN LIFT?? THAT NAME IS TAKEN!"}
     elsif params[:user][:username] == "" || params[:user][:password] == ""
-      erb :'users/create_user'
+      erb :'users/create_user', locals: {message: "YOU HAVE TO ENTER A NAME AND PASSWORD, WIMP!"}
     else 
-      binding.pry
       @user = User.create(params[:user])
       session[:user_id] = @user.id
       redirect to '/entry/new'
@@ -24,7 +23,7 @@ class UsersController < ApplicationController
 
   get '/login' do 
     if is_logged_in?
-      redirect '/entries/new'
+      redirect '/entry/new'
     else 
       erb :'users/login'
     end
@@ -32,7 +31,6 @@ class UsersController < ApplicationController
 # NEEDS TO INCLUDE AN ERROR MESSAGE IF THEY AREN'T LOGGED IN 
 
   post '/login' do
-    binding.pry
      user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id

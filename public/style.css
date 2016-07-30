@@ -1,0 +1,50 @@
+*{
+  box-sizing: border-box;
+}
+
+*{
+  background-color: orange;
+}
+
+.maxout {
+  margin-left: 5px;
+  margin-top: 2px;
+  text-align: center;
+}
+
+h2 {
+  margin: 0px;
+}
+
+.maxout2 {
+  margin-top: 15px;
+  margin-left: 5px;
+}
+
+.time {
+  float: left;
+  margin-top: 35px;
+  margin-left: 45px;
+}
+
+.show {
+  float: left;
+  margin-left: 25px;
+}
+
+.show_stats {
+  margin-top: 5px;
+}
+
+.workout_list {
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+.update {
+  margin-top: 20px;
+}
+
+.login {
+  margin-left: 10px;
+}
