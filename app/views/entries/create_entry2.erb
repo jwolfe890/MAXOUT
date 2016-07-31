@@ -24,13 +24,18 @@
   <input type="date" name="date">
 </form>
 
-  <label><h4>Exercises</h4></label>
+<br></br>
+
+  <label><h4 class = "exer">Exercises:</h4></label>
+
+<br></br>
 
     <% @names2.each do |exercise_name| %>
-
       <label><%= exercise_name %></label>
       <input type="checkbox" name="user[exercise_names][]" value="<%= exercise_name %>"><br>
     <% end %>
+
+<br></br>
 
 <label><h4>Add a New Exercise:</h4></label>
   <input type="text" name="exercise[name]">
