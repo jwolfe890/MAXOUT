@@ -4,7 +4,8 @@ class CreateExercises < ActiveRecord::Migration
       t.string :name
       t.integer :weight
       t.integer :reps
-      t.date :date
+      t.datetime :time
+      t.datetime :date
       t.integer :entry_id 
     end
   end

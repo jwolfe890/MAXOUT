@@ -3,6 +3,7 @@ class CreateEntries < ActiveRecord::Migration
     create_table :entries do |t|
       t.date :name
       t.date :date
+      t.datetime :time
       t.integer :exercise_id
       t.integer :user_id
     end

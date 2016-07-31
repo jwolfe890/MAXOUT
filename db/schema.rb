@@ -13,18 +13,20 @@
 ActiveRecord::Schema.define(version: 20160727215144) do
 
   create_table "entries", force: :cascade do |t|
-    t.date    "name"
-    t.date    "date"
-    t.integer "exercise_id"
-    t.integer "user_id"
+    t.date     "name"
+    t.date     "date"
+    t.datetime "time"
+    t.integer  "exercise_id"
+    t.integer  "user_id"
   end
 
   create_table "exercises", force: :cascade do |t|
-    t.string  "name"
-    t.integer "weight"
-    t.integer "reps"
-    t.date    "date"
-    t.integer "entry_id"
+    t.string   "name"
+    t.integer  "weight"
+    t.integer  "reps"
+    t.datetime "time"
+    t.datetime "date"
+    t.integer  "entry_id"
   end
 
   create_table "user_exercises", force: :cascade do |t|
@@ -33,13 +35,14 @@ ActiveRecord::Schema.define(version: 20160727215144) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string  "username"
-    t.string  "password_digest"
-    t.date    "date"
-    t.string  "name"
-    t.string  "age"
-    t.integer "weight"
-    t.integer "entry_id"
+    t.string   "username"
+    t.string   "password_digest"
+    t.datetime "time"
+    t.datetime "date"
+    t.string   "name"
+    t.string   "age"
+    t.integer  "weight"
+    t.integer  "entry_id"
   end
 
 end

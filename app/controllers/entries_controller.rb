@@ -13,7 +13,6 @@ class EntriesController < ApplicationController
     @user = User.find_by_id(session[:user_id])
     if is_logged_in? 
     if @user.entries != []
-      binding.pry
       names = []
       @user.exercises.each do |exer|
         names << exer.name
@@ -35,27 +34,23 @@ class EntriesController < ApplicationController
 
   post '/entry' do
     @user = User.find_by_id(session[:user_id])
+    @entry = Entry.create
+    @entry.date = params[:date]
+    @entry.time = Time.now
     params["user"]["exercise_names"].each do |exer|  
-       @user.exercises << Exercise.create(name: exer, date: params["date"])
+       @entry.exercises << Exercise.create(name: exer, date: params[:date], time: Time.now) 
     end
     if !params[:exercise][:name].empty?
-      @user.exercises << Exercise.create(name: params[:exercise][:name], date: params["date"])
-    end 
-    redirect "add_stats?date=#{params[:date]}" 
+      @entry.exercises << Exercise.create(name: params[:exercise][:name], date: params[:date], time: Time.now)
+    end
+    @user.entries << @entry 
+    redirect "add_stats?entry=#{@entry}" 
   end
 
   get '/add_stats' do
-    if is_logged_in?  
+    if is_logged_in? 
       @user = User.find_by_id(session[:user_id])
-      @date = params[:date]
-      @user.date = @date 
-      @entry = Entry.create 
-      @entry.name = @date
-      @entry.date = @date  
-      @entry.exercises << @user.exercises.all.where(date: "#{@date}" )
-      @user.entries << @entry
-      @user.save
-      @entry.save  
+      @entry = Entry.last
       erb :'entries/add_stats'
     else 
       redirect '/login'
@@ -64,66 +59,62 @@ class EntriesController < ApplicationController
 
   patch '/add_stats' do
     @user = User.find_by_id(session[:user_id])
-    @entry = @user.exercises.all.where(date: "#{@user.date}" )
-    weight_convertor = @entry.zip(params["weight"])
+    @entry = Entry.last
+    weight_convertor = @entry.exercises.zip(params["weight"])
     weight_convertor.each do 
       |x| x[0].weight = x[1]
     end
-    reps_convertor = @entry.zip(params["reps"]) 
+    reps_convertor = @entry.exercises.zip(params["reps"]) 
     reps_convertor.each do 
       |x| x[0].reps = x[1] 
     end 
-    @entry.each do |entry|
+    @entry.exercises.each do |entry|
       entry.save
     end 
-    redirect "show_stats?date=#{params[:date]}"
+    redirect "show_stats?date=#{params[:time]}"
   end
 
   patch '/edit_entry' do
     @user = User.find_by_id(session[:user_id])
-    @entry = @user.exercises.all.where(date: "#{@user.date}" )
-    weight_convertor = @entry.zip(params["weight"])
+    @entry = Entry.last
+    weight_convertor = @entry.exercises.zip(params["weight"])
     weight_convertor.each do 
       |x| x[0].weight = x[1]
     end
-    reps_convertor = @entry.zip(params["reps"]) 
+    reps_convertor = @entry.exercises.zip(params["reps"]) 
     reps_convertor.each do 
       |x| x[0].reps = x[1] 
     end 
-    @entry.each do |entry|
+    @entry.exercises.each do |entry|
       entry.save
     end 
-    redirect "show_update?date=#{params[:date]}"
+    redirect "show_update?date=#{params[:time]}"
   end
 
   get '/show_stats' do
     if is_logged_in? 
       @user = User.find_by_id(session[:user_id])
-      @entry = @user.exercises.all.where(date: "#{@user.date}" )
+      @entry = Entry.last
       erb :'/entries/show_stats'
     else 
       redirect '/login'
     end 
   end
 
-  get '/show_stats/:date' do
+  get '/show_stats/:id' do
     if is_logged_in? 
       @user = User.find_by_id(session[:user_id])
-      @user.date = params["date"]
-      @user.save
-      @entry = @user.exercises.all.where(date: params[:date] )
+      @entry = Entry.all.find_by_id(params[:id])
       erb :'/entries/show_stats'
     else 
       redirect '/login'
     end 
   end
 
-  get '/edit_entry/:date' do
+  get '/edit_entry/:id' do
     if is_logged_in?
       @user = User.find_by_id(session[:user_id])
-      @user.date = params["date"]
-      @user.save
-      @entry = @user.exercises.all.where(date: params["date"] )
+      @entry = Entry.all.find_by_id(params[:id])
       erb :'entries/edit'
     else 
       redirect '/login'
@@ -133,7 +124,6 @@ class EntriesController < ApplicationController
   get '/show_update' do 
     if is_logged_in?
       @user = User.find_by_id(session[:user_id])
-      @entry = @user.exercises.all.where(date: "#{@user.date}" )
       erb :'/entries/show_update'
     else 
       redirect '/login'

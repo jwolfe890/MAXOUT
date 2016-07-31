@@ -15,7 +15,7 @@
 
 <img src="/bl.jpg" alt="bostin" style="width:160px;height:150px;">
 
-<% @entry.each do |entr| %>
+<% @entry.exercises.each do |entr| %>
 
 <strong><p><%= entr.name %></p></strong>
 Weight:
@@ -26,7 +26,7 @@ Reps:
 <% end %> 
 <br></br>
 
-<a href="/edit_entry/<%= @user.date %>">EDIT</a>
+<a href="/edit_entry/<%= @entry.id %>">EDIT</a>
 
 <br></br>
 

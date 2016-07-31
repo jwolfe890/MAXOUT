@@ -3,7 +3,8 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string :username
       t.string :password_digest
-      t.date :date
+      t.datetime :time 
+      t.datetime :date
       t.string :name
       t.string :age
       t.integer :weight
