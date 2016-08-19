@@ -1,5 +1,7 @@
 class EntriesController < ApplicationController
 
+# INDEX/LIST PAGE
+
   get '/entries' do
     if is_logged_in?
       @user = User.find_by_id(session[:user_id])
@@ -9,28 +11,50 @@ class EntriesController < ApplicationController
     end 
   end 
 
+# GET ROUTES TO CREATE A NEW ENTRY 
+
+  # get '/entry/new' do
+  #   HAS_MANY THROUGH VERSION 
+  #   @user = User.find_by_id(session[:user_id])
+  #   if is_logged_in? 
+  #   if @user.entries != []
+  #     names = []
+  #     @user.exercises.each do |exer|
+  #       names << exer.name
+  #     end 
+  #     @names2 = names.uniq
+  #     erb :'/entries/create_entry2'
+  #   else 
+  #     names = []
+  #     Exercise.all.each do |exer|
+  #       names << exer.name
+  #     end 
+  #     @names2 = names.uniq
+  #     erb :'entries/create_entry' 
+  #   end 
+  #  else 
+  #   redirect '/login'
+  #   end 
+  # end
+
+# MANY TO MANY VERSION
+
   get '/entry/new' do
     @user = User.find_by_id(session[:user_id])
     if is_logged_in? 
-    if @user.entries != []
-      names = []
-      @user.exercises.each do |exer|
-        names << exer.name
-      end 
-      @names2 = names.uniq
-      erb :'/entries/create_entry2'
-    else 
       names = []
       Exercise.all.each do |exer|
         names << exer.name
       end 
       @names2 = names.uniq
       erb :'entries/create_entry' 
-    end 
+    # end 
    else 
     redirect '/login'
     end 
   end
+
+# POST ROUTE FOR CREATING A NEW EXERCISE
 
   post '/entry' do
     @user = User.find_by_id(session[:user_id])
@@ -57,6 +81,9 @@ class EntriesController < ApplicationController
     end 
   end
 
+# POST ROUTE FOR ADDING STATS. ADDS THE EXERCISE STATS/NUMBERS AFTER A USER ENTERS THEM FOR A WORKOUT 
+# IT HAS TO USE PATCH (BECAUSE IT'S CHANGING DATA, I BELIEVE)
+
   patch '/add_stats' do
     @user = User.find_by_id(session[:user_id])
     @entry = Entry.last
@@ -73,6 +100,8 @@ class EntriesController < ApplicationController
     end 
     redirect "show_stats?date=#{params[:time]}"
   end
+
+# AFTER USER EDITS ENTRY IT GOES TO THIS CONTROLLER
 
   patch '/edit_entry' do
     @user = User.find_by_id(session[:user_id])
@@ -92,6 +121,7 @@ class EntriesController < ApplicationController
   end
 
   get '/show_stats' do
+    # SHOWS THE STATS AFTER A USER CREATES A WORKOUT AND ENTERS THEM
     if is_logged_in? 
       @user = User.find_by_id(session[:user_id])
       @entry = Entry.last
@@ -102,6 +132,7 @@ class EntriesController < ApplicationController
   end
 
   get '/show_stats/:id' do
+    # SHOWS THE STATS IF A USER SEARCHES AN ENTRY FROM THE LIST/INDEX PAGE
     if is_logged_in? 
       @user = User.find_by_id(session[:user_id])
       @entry = Entry.all.find_by_id(params[:id])
@@ -112,6 +143,7 @@ class EntriesController < ApplicationController
   end
 
   get '/edit_entry/:id' do
+    # ALLOWS A USER TO EDIT AN ENTRY 
     if is_logged_in?
       @user = User.find_by_id(session[:user_id])
       @entry = Entry.all.find_by_id(params[:id])
@@ -122,6 +154,7 @@ class EntriesController < ApplicationController
   end
 
   get '/show_update' do 
+    # SHOWS UPDATE AFTER USER EDITS STATS 
     if is_logged_in?
       @user = User.find_by_id(session[:user_id])
       erb :'/entries/show_update'
