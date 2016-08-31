@@ -10,28 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160727215144) do
+ActiveRecord::Schema.define(version: 20160819005910) do
 
   create_table "entries", force: :cascade do |t|
     t.date     "name"
     t.date     "date"
     t.datetime "time"
-    t.integer  "exercise_id"
     t.integer  "user_id"
+  end
+
+  create_table "exercise_entries", force: :cascade do |t|
+    t.integer "weight"
+    t.integer "reps"
+    t.integer "exercise_id"
+    t.integer "entry_id"
   end
 
   create_table "exercises", force: :cascade do |t|
     t.string   "name"
-    t.integer  "weight"
-    t.integer  "reps"
     t.datetime "time"
     t.datetime "date"
     t.integer  "entry_id"
-  end
-
-  create_table "user_exercises", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "exercise_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -40,9 +39,6 @@ ActiveRecord::Schema.define(version: 20160727215144) do
     t.datetime "time"
     t.datetime "date"
     t.string   "name"
-    t.string   "age"
-    t.integer  "weight"
-    t.integer  "entry_id"
   end
 
 end

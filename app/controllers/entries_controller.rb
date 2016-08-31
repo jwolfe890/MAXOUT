@@ -1,7 +1,5 @@
 class EntriesController < ApplicationController
 
-# INDEX/LIST PAGE
-
   get '/entries' do
     if is_logged_in?
       @user = User.find_by_id(session[:user_id])
@@ -11,50 +9,18 @@ class EntriesController < ApplicationController
     end 
   end 
 
-# GET ROUTES TO CREATE A NEW ENTRY 
-
-  # get '/entry/new' do
-  #   HAS_MANY THROUGH VERSION 
-  #   @user = User.find_by_id(session[:user_id])
-  #   if is_logged_in? 
-  #   if @user.entries != []
-  #     names = []
-  #     @user.exercises.each do |exer|
-  #       names << exer.name
-  #     end 
-  #     @names2 = names.uniq
-  #     erb :'/entries/create_entry2'
-  #   else 
-  #     names = []
-  #     Exercise.all.each do |exer|
-  #       names << exer.name
-  #     end 
-  #     @names2 = names.uniq
-  #     erb :'entries/create_entry' 
-  #   end 
-  #  else 
-  #   redirect '/login'
-  #   end 
-  # end
-
-# MANY TO MANY VERSION
-
   get '/entry/new' do
     @user = User.find_by_id(session[:user_id])
     if is_logged_in? 
-      names = []
-      Exercise.all.each do |exer|
-        names << exer.name
+      @names = []
+      Exercise.all.each do |exercise|
+        @names << exercise.name
       end 
-      @names2 = names.uniq
       erb :'entries/create_entry' 
-    # end 
    else 
     redirect '/login'
     end 
   end
-
-# POST ROUTE FOR CREATING A NEW EXERCISE
 
   post '/entry' do
     @user = User.find_by_id(session[:user_id])
@@ -62,10 +28,7 @@ class EntriesController < ApplicationController
     @entry.date = params[:date]
     @entry.time = Time.now
     params["user"]["exercise_names"].each do |exer|  
-       @entry.exercises << Exercise.create(name: exer, date: params[:date], time: Time.now) 
-    end
-    if !params[:exercise][:name].empty?
-      @entry.exercises << Exercise.create(name: params[:exercise][:name], date: params[:date], time: Time.now)
+       @entry.exercises << Exercise.find_by(name: exer) 
     end
     @user.entries << @entry 
     redirect "add_stats?entry=#{@entry}" 
@@ -81,41 +44,29 @@ class EntriesController < ApplicationController
     end 
   end
 
-# POST ROUTE FOR ADDING STATS. ADDS THE EXERCISE STATS/NUMBERS AFTER A USER ENTERS THEM FOR A WORKOUT 
-# IT HAS TO USE PATCH (BECAUSE IT'S CHANGING DATA, I BELIEVE)
-
   patch '/add_stats' do
     @user = User.find_by_id(session[:user_id])
     @entry = Entry.last
-    weight_convertor = @entry.exercises.zip(params["weight"])
-    weight_convertor.each do 
-      |x| x[0].weight = x[1]
-    end
-    reps_convertor = @entry.exercises.zip(params["reps"]) 
-    reps_convertor.each do 
-      |x| x[0].reps = x[1] 
-    end 
-    @entry.exercises.each do |entry|
-      entry.save
+    i = 0
+    while i < @entry.exercise_entries.length do 
+      @entry.exercise_entries[i].weight = params[:weight][i]
+      @entry.exercise_entries[i].reps = params[:reps][i]
+      @entry.exercise_entries[i].save
+      i += 1
     end 
     redirect "show_stats?date=#{params[:time]}"
   end
 
-# AFTER USER EDITS ENTRY IT GOES TO THIS CONTROLLER
-
-  patch '/edit_entry' do
+  post '/edit_entry' do
     @user = User.find_by_id(session[:user_id])
     @entry = Entry.last
-    weight_convertor = @entry.exercises.zip(params["weight"])
-    weight_convertor.each do 
-      |x| x[0].weight = x[1]
-    end
-    reps_convertor = @entry.exercises.zip(params["reps"]) 
-    reps_convertor.each do 
-      |x| x[0].reps = x[1] 
-    end 
-    @entry.exercises.each do |entry|
-      entry.save
+    i = 0
+    binding.pry
+    while i < @entry.exercise_entries.length do 
+      @entry.exercise_entries[i].weight = params[:weight][i]
+      @entry.exercise_entries[i].reps = params[:reps][i]
+      @entry.exercise_entries[i].save
+      i += 1
     end 
     redirect "show_update?date=#{params[:time]}"
   end
@@ -143,7 +94,6 @@ class EntriesController < ApplicationController
   end
 
   get '/edit_entry/:id' do
-    # ALLOWS A USER TO EDIT AN ENTRY 
     if is_logged_in?
       @user = User.find_by_id(session[:user_id])
       @entry = Entry.all.find_by_id(params[:id])
@@ -163,6 +113,7 @@ class EntriesController < ApplicationController
     end  
   end     
  
+
 end
 
 

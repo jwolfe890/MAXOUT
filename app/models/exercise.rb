@@ -1,9 +1,7 @@
 class Exercise < ActiveRecord::Base
 
-  has_many :users, :through => :user_exercises
-  has_many :user_exercises
-  belongs_to :user
-  belongs_to :entry
+  has_many :entries, through: :exercise_entries 
+  has_many :exercise_entries
 
 end
 

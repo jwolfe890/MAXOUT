@@ -4,7 +4,6 @@ class CreateEntries < ActiveRecord::Migration
       t.date :name
       t.date :date
       t.datetime :time
-      t.integer :exercise_id
       t.integer :user_id
     end
   end

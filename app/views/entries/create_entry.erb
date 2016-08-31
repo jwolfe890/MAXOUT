@@ -30,15 +30,10 @@
 
 <br class= "exer"></br>
 
-    <% @names2.each do |exercise_name| %>
+    <% @names.each do |exercise_name| %>
       <label><%= exercise_name %></label>
       <input type="checkbox" name="user[exercise_names][]" value="<%= exercise_name %>"><br>
     <% end %>
-
-<br></br>
-
-<label><h4>Add a New Exercise:</h4></label>
-  <input type="text" name="exercise[name]">
 
 <br></br>
   <input type="submit" value="submit">

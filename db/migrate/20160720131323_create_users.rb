@@ -6,9 +6,6 @@ class CreateUsers < ActiveRecord::Migration
       t.datetime :time 
       t.datetime :date
       t.string :name
-      t.string :age
-      t.integer :weight
-      t.integer :entry_id
     end
   end
 end

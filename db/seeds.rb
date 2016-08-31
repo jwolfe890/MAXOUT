@@ -1,5 +1,3 @@
-@bench_press = Exercise.create
-@bench_press.name = "Bench Press"
-@bench_press.save
-
-@leg_press = Exercise.create(name: "Leg Press")
+@biceps_curl = Exercise.create(name: "Biceps Curl")
+@leg_extension = Exercise.create(name: "Leg Extension")
+@chestpress = Exercise.create(name: "Chest Press")

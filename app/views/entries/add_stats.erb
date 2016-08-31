@@ -9,16 +9,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 </head>
 
-<body class= "maxout2">
-<form method="post" action="/add_stats">
+<form method="post" action="/edit_entry">
 
-<h2 class ="margin">Now enter the max weight you did for each exercise.</h2>
+<body class= "maxout2">
 
 <div class = "show">
 <br></br>
-<% @entry.exercises.each do |exs| %>
+
+<% @entry.exercise_entries.each do |exs| %>
   <input id="hidden" type="hidden" name="_method" value="PATCH">
-  <strong><%= exs.name %></strong>
+  <strong><%= Exercise.find(exs.exercise_id).name %></strong>
   <br></br>
   Weight:<input type="text" name="weight[]" value="<%= exs.weight %>">
   <br></br>

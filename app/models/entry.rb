@@ -1,8 +1,7 @@
 class Entry < ActiveRecord::Base
 
-  has_many :exercises
   belongs_to :user
-
-  asdfadsfadsadsfafds
+  has_many :exercises, through: :exercise_entries 
+  has_many :exercise_entries
 
 end

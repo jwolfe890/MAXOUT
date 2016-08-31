@@ -15,16 +15,40 @@
 
 <img src="/bl.jpg" alt="bostin" style="width:160px;height:150px;">
 
-<% @entry.exercises.each do |entr| %>
+<br></br>
 
-<strong><p><%= entr.name %></p></strong>
-Weight:
-<%= entr.weight %>
-<br></br>
-Reps:
-<%= entr.reps %>
-<br></br>
-<% end %> 
+<% @entry.exercise_entries.each do |entry| %>
+  <% if Exercise.find_by_id(entry.exercise_id).name == "Biceps Curl" %>
+  <strong><%= Exercise.find_by_id(entry.exercise_id).name %></strong>
+  <br></br>
+    Weight: <%= entry.weight %>
+    Reps: <%= entry.reps %>
+<% end %>
+<% end %>
+
+  <br></br>
+
+  <% @entry.exercise_entries.each do |entry| %>
+  <% if Exercise.find_by_id(entry.exercise_id).name == "Leg Extension" %>
+  <strong><%= Exercise.find_by_id(entry.exercise_id).name %></strong>
+   <br></br>
+     Weight: <%= entry.weight %>
+     Reps: <%= entry.reps %>
+    <% end %>
+    <% end %>
+
+      <br></br>
+
+  <% @entry.exercise_entries.each do |entry| %>
+  <% if Exercise.find_by_id(entry.exercise_id).name == "Chest Press" %>
+  <strong><%= Exercise.find_by_id(entry.exercise_id).name %></strong>
+  <br></br>
+    Weight: <%= entry.weight %>
+    Reps: <%= entry.reps %>
+  <% end %>
+  <% end %>
+
+        <br></br>
 
 <a href="/edit_entry/<%= @entry.id %>">EDIT</a>
 
