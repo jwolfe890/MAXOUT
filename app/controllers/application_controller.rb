@@ -9,8 +9,13 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "exercise"
   end
 
-  get '/' do  
-    erb :index
+  get '/' do
+    if is_logged_in?
+      @user = User.find_by_id(session[:user_id])
+      erb :'entries/list_page' 
+    else
+      erb :index
+    end  
   end
 
  helpers do

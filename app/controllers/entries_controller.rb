@@ -1,8 +1,8 @@
 class EntriesController < ApplicationController
 
   get '/entries' do
+    binding.pry
     if is_logged_in?
-      binding.pry
       @user = User.find_by_id(session[:user_id])
       erb :'/entries/list_page'
     else 
