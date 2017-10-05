@@ -2,6 +2,7 @@ class EntriesController < ApplicationController
 
   get '/entries' do
     if is_logged_in?
+      binding.pry
       @user = User.find_by_id(session[:user_id])
       erb :'/entries/list_page'
     else 
@@ -27,10 +28,12 @@ class EntriesController < ApplicationController
     @entry = Entry.create
     @entry.date = params[:date]
     @entry.time = Time.now
-    params["user"]["exercise_names"].each do |exer|  
-       @entry.exercises << Exercise.find_by(name: exer) 
+    params["user"]["exercise_names"].each do |exercise|  
+       @entry.exercises << Exercise.find_by(name: exercise) 
     end
-    @user.entries << @entry 
+    @user.entries << @entry
+    @user.save
+    @entry.save 
     redirect "add_stats?entry=#{@entry}" 
   end
 
@@ -47,28 +50,24 @@ class EntriesController < ApplicationController
   patch '/add_stats' do
     @user = User.find_by_id(session[:user_id])
     @entry = Entry.last
-    i = 0
-    while i < @entry.exercise_entries.length do 
-      @entry.exercise_entries[i].weight = params[:weight][i]
-      @entry.exercise_entries[i].reps = params[:reps][i]
-      @entry.exercise_entries[i].save
-      i += 1
-    end 
-    redirect "show_stats?date=#{params[:time]}"
+    @entry.exercise_entries.each do |exEntry|
+      id = exEntry.id.to_s
+      exEntry.weight = params[:exercise_entry_ids][id][:weight]
+      exEntry.reps = params[:exercise_entry_ids][id][:reps]
+    end
+      redirect "show_stats?date=#{params[:time]}"
   end
 
-  post '/edit_entry' do
+  patch '/edit_entry' do
     @user = User.find_by_id(session[:user_id])
     @entry = Entry.last
-    i = 0
-    binding.pry
-    while i < @entry.exercise_entries.length do 
-      @entry.exercise_entries[i].weight = params[:weight][i]
-      @entry.exercise_entries[i].reps = params[:reps][i]
-      @entry.exercise_entries[i].save
-      i += 1
-    end 
-    redirect "show_update?date=#{params[:time]}"
+      @entry.exercise_entries.each do |exEntry|
+        id = exEntry.id.to_s
+        exEntry.weight = params[:exercise_entry_ids][id][:weight]
+        exEntry.reps = params[:exercise_entry_ids][id][:reps]
+        exEntry.save
+      end
+    redirect '/show_stats'
   end
 
   get '/show_stats' do
@@ -103,7 +102,7 @@ class EntriesController < ApplicationController
     end  
   end
 
-  get '/show_update' do 
+  get '/show_update' do
     # SHOWS UPDATE AFTER USER EDITS STATS 
     if is_logged_in?
       @user = User.find_by_id(session[:user_id])

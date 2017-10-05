@@ -17,13 +17,13 @@
 
 <br></br>
 
-<% @entry.exercise_entries.each do |exs| %>
+<% @entry.exercise_entries.each do |exercise| %>
   <input id="hidden" type="hidden" name="_method" value="PATCH">
-  <strong><%= Exercise.find(exs.exercise_id).name %></strong>
+  <strong><%= Exercise.find(exercise.exercise_id).name %></strong>
   <br></br>
-  Weight:<input type="text" name="weight[]" value="<%= exs.weight %>">
+  Weight:<input type="text" name=<%="exercise_entry_ids[#{exercise.id}][weight]"%> value="<%= exercise.weight %>">
   <br></br>
-  Reps:<input type="text" name="reps[]" value="<%= exs.reps %>">
+  Reps:<input type="text" name=<%="exercise_entry_ids[#{exercise.id}][reps]"%> value="<%= exercise.reps %>">
   <br></br>
 <% end %>
   <input type="submit" value="submit">

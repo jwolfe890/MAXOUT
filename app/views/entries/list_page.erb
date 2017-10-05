@@ -15,9 +15,9 @@
 <h2 class="workout_list">PAST WORKOUTS</h2>
 
 
-<% @user.entries.each do |ent| %>
+<% @user.entries.each do |entry| %>
 
-  <a href="/show_stats/<%= ent.id %>"><%= ent.time.strftime("%m-%d-%Y") %></a> 
+  <a href="/show_stats/<%= entry.id %>"><%= entry.date.strftime("%m-%d-%Y")  %></a> 
 
 <br></br>
 
